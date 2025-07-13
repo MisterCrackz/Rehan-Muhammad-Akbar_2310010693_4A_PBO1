@@ -1,61 +1,64 @@
+package pbo1.uas;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GrabfoodMain {
+public class QuickMealMain {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        ArrayList<PesananMakanan> daftarPesanan = new ArrayList<>();
 
-        System.out.println("=== Aplikasi GrabFood ===");
-
-        // Input user
-        System.out.print("Masukkan nama Anda: ");
-        String nama = input.nextLine();
-        System.out.print("Masukkan alamat Anda: ");
-        String alamat = input.nextLine();
-
-        Customer cust = new Customer(nama, alamat);
-        System.out.println("\n=== Profil Pelanggan ===");
-        cust.tampilkanProfil();
-        
-        Makanan[] daftarMakanan = {
-            new Makanan("Nasi Goreng", 15000, 5),
-            new Makanan("Mie Ayam", 12000, 3),
-            new Makanan("Sate Ayam", 20000, 2),
-            new Makanan("Soto Banjar", 18000, 4),
-            new Makanan("Mie Habang", 14000, 3)
-    };
-
-
-        Pesanan pesanan = new Pesanan();
+        System.out.println("=== Selamat datang di QuickMeal ===");
 
         while (true) {
-            System.out.println("\n=== Menu Makanan GrabFood ===");
-            for (int i = 0; i < daftarMakanan.length; i++) {
-                System.out.println((i + 1) + ". " + daftarMakanan[i].getNama() + " - Rp" +
-                    daftarMakanan[i].getHarga() + " [Stok: " + daftarMakanan[i].getStok() + "]");
+            System.out.print("\nNama Makanan (ketik 'selesai' untuk berhenti): ");
+            String nama = input.nextLine();
+            if (nama.equalsIgnoreCase("selesai")) {
+                break;
             }
 
-            System.out.print("Pilih nomor makanan (0 untuk selesai): ");
-            int pilih;
-
             try {
-                pilih = input.nextInt();
+                System.out.print("Harga: ");
+                int harga = Integer.parseInt(input.nextLine());
 
-                if (pilih == 0) break;
-                if (pilih > 0 && pilih <= daftarMakanan.length) {
-                    pesanan.tambahMakanan(daftarMakanan[pilih - 1]);
-                } else {
-                    System.out.println("Pilihan tidak valid.");
-                }
+                System.out.print("Jumlah: ");
+                int jumlah = Integer.parseInt(input.nextLine());
 
-            } catch (Exception e) {
-                System.out.println("Input salah, masukkan angka!");
-                input.nextLine(); // Bersihkan buffer
+                PesananMakanan pesanan = new PesananMakanan(nama, harga, jumlah);
+                daftarPesanan.add(pesanan);
+            } catch (NumberFormatException e) {
+                System.out.println("Input tidak valid! Harus angka. Silakan coba lagi.");
             }
         }
 
-        pesanan.tampilkanPesanan();
-        System.out.println("Terima kasih telah menggunakan GrabFood!");
+        int totalHarga = 0;
+        System.out.println("\n=== Daftar Pesanan ===");
+        for (PesananMakanan pesanan : daftarPesanan) {
+            System.out.println(pesanan.deskripsi());
+            totalHarga += pesanan.hitungTotalHarga();
+        }
+
+        int bayar = 0;
+        while (true) {
+            try {
+                System.out.print("\nTotal Harga: Rp" + totalHarga + "\nUang Dibayar: Rp");
+                bayar = Integer.parseInt(input.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Input harus berupa angka. Silakan coba lagi.");
+            }
+        }
+
+        Transaksi transaksi = new Transaksi(totalHarga, bayar);
+        int kembalian = transaksi.hitungKembalian();
+
+        if (kembalian >= 0) {
+            System.out.println("Kembalian: Rp" + kembalian);
+            System.out.println("\n=== Terima kasih telah memesan di QuickMeal! ===");
+        } else {
+            System.out.println("Uang tidak cukup! Transaksi dibatalkan.");
+        }
+
+        input.close();
     }
 }
-
-      

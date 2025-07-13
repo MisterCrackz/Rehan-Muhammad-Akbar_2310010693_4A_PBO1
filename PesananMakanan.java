@@ -1,93 +1,27 @@
-// Superclass
-class User {
-    protected String nama;
-    protected String alamat;
+package pbo1.uas;
 
-    public User(String nama, String alamat) {
-        this.nama = nama;
-        this.alamat = alamat;
+public class PesananMakanan extends MenuItem {
+    private int jumlah;
+
+    public PesananMakanan(String namaMakanan, int harga, int jumlah) {
+        super(namaMakanan, harga);
+        this.jumlah = jumlah;
     }
 
-    public String getNama() {
-        return nama;
+    public int getJumlah() {
+        return jumlah;
     }
 
-    public String getAlamat() {
-        return alamat;
-    }
-}
-
-// Subclass Customer
-class Customer extends User {
-    public Customer(String nama, String alamat) {
-        super(nama, alamat);
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
     }
 
-    public void tampilkanProfil() {
-        System.out.println("Nama: " + nama);
-        System.out.println("Alamat: " + alamat);
-    }
-}
-
-// Class Makanan
-class Makanan {
-    private String nama;
-    private int harga;
-    private int stok;
-
-    public Makanan(String nama, int harga, int stok) {
-        this.nama = nama;
-        this.harga = harga;
-        this.stok = stok;
+    public int hitungTotalHarga() {
+        return harga * jumlah;
     }
 
-    public String getNama() {
-        return nama;
-    }
-
-    public int getHarga() {
-        return harga;
-    }
-
-    public int getStok() {
-        return stok;
-    }
-
-    public void kurangiStok() {
-        if (stok > 0) {
-            stok--;
-        }
-    }
-}
-
-// Class Pesanan
-class Pesanan {
-    private Makanan[] daftarPesanan;
-    private int total;
-    private int index;
-
-    public Pesanan() {
-        daftarPesanan = new Makanan[10];
-        index = 0;
-        total = 0;
-    }
-
-    public void tambahMakanan(Makanan mkn) {
-        if (mkn.getStok() > 0) {
-            daftarPesanan[index++] = mkn;
-            total += mkn.getHarga();
-            mkn.kurangiStok();
-            System.out.println(mkn.getNama() + " ditambahkan ke pesanan.");
-        } else {
-            System.out.println("Maaf, " + mkn.getNama() + " sedang habis.");
-        }
-    }
-
-    public void tampilkanPesanan() {
-        System.out.println("\n=== Ringkasan Pesanan Anda ===");
-        for (int i = 0; i < index; i++) {
-            System.out.println("- " + daftarPesanan[i].getNama() + " : Rp" + daftarPesanan[i].getHarga());
-        }
-        System.out.println("Total Bayar: Rp" + total);
+    @Override
+    public String deskripsi() {
+        return jumlah + " x " + nama + " = Rp" + hitungTotalHarga();
     }
 }
