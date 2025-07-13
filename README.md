@@ -1,134 +1,102 @@
+
 # Proyek Akhir Pemrograman Berbasis Objek 1
 
-Proyek ini adalah aplikasi sederhana simulasi pemesanan makanan *QuickMeal* yang dibuat menggunakan bahasa pemrograman Java. Program ini merupakan tugas akhir dari mata kuliah Pemrograman Berbasis Objek 1.
+Proyek ini adalah aplikasi simulasi pemesanan makanan cepat saji (`QuickMeal`) menggunakan bahasa pemrograman Java. Program ini merupakan tugas akhir dari mata kuliah **Pemrograman Berbasis Objek 1**.
 
 ## Deskripsi
 
-Aplikasi ini menerima input berupa nama pelanggan, status member (ya/tidak), detail pesanan makanan (nama item, jumlah, harga satuan), dan akan menampilkan detail transaksi termasuk total harga dan diskon (jika berlaku).
-
-Program ini menerapkan beberapa konsep utama dalam Pemrograman Berbasis Objek (OOP) seperti Class, Object, Atribut, Constructor, Mutator (setter), Accessor (getter), Encapsulation, Array, Perulangan, IO sederhana, Seleksi (if), dan Error Handling.
+Aplikasi ini memungkinkan pengguna untuk memesan makanan dari daftar menu yang tersedia. Program menerima input berupa data menu, jumlah pesanan, dan menghitung total harga pembelian. Program ini menerapkan konsep OOP seperti **Class**, **Object**, **Encapsulation**, **Constructor**, **Array**, **Perulangan**, **Input/Output**, dan **Error Handling**.
 
 ## Struktur Kode
 
-### 1. Class
-
-Terdapat tiga class utama:
-- `PesananMakanan`: merepresentasikan satu item makanan.
-- `Transaksi`: menyimpan detail transaksi pengguna, termasuk apakah pengguna adalah member.
-- `QuickMealMain`: class `main` yang menjalankan seluruh alur aplikasi.
-
-### 2. Object
-
-Object `PesananMakanan` dibuat untuk setiap item yang dipesan dan disimpan dalam array. Object `Transaksi` menyimpan seluruh data pemesanan dan status member.
-
-### 3. Atribut
-
-Contoh atribut pada `PesananMakanan`:
+### 1. `MenuItem` Class
+Mewakili item makanan pada menu.
 
 ```java
-private String namaItem;
-private int jumlah;
-private double harga;
-```
-
-Contoh atribut pada `Transaksi`:
-
-```java
-private String namaPelanggan;
-private boolean isMember;
-private PesananMakanan[] daftarPesanan;
-```
-
-### 4. Constructor
-
-Digunakan untuk inisialisasi object:
-
-```java
-public PesananMakanan(String namaItem, int jumlah, double harga) { ... }
-public Transaksi(String namaPelanggan, boolean isMember, PesananMakanan[] daftarPesanan) { ... }
-```
-
-### 5. Mutator (Setter) & 6. Accessor (Getter)
-
-Setiap class memiliki method getter dan setter untuk setiap atribut.
-
-### 7. Encapsulation
-
-Semua atribut diset `private` dan diakses melalui getter/setter, menerapkan prinsip encapsulation.
-
-### 8. Perulangan
-
-Perulangan digunakan untuk input data pesanan dan mencetak output:
-
-```java
-for (int i = 0; i < jumlahPesanan; i++) {
+public class MenuItem {
+    private String nama;
+    private double harga;
     ...
 }
 ```
 
-### 9. Input Output Sederhana
-
-Menggunakan `Scanner` untuk input data:
-
-```java
-Scanner input = new Scanner(System.in);
-System.out.print("Nama Pelanggan: ");
-String nama = input.nextLine();
-```
-
-### 10. Seleksi (If)
-
-Digunakan untuk pengecekan status member dan pemberian diskon:
+### 2. `PesananMakanan` Class
+Mewakili pesanan pengguna (jumlah dan menu yang dipilih).
 
 ```java
-if (isMember) {
-    return total * 0.9; // Diskon 10%
+public class PesananMakanan {
+    private MenuItem item;
+    private int jumlah;
+    ...
 }
 ```
 
-### 11. Array
-
-Array digunakan untuk menyimpan beberapa pesanan:
-
-```java
-PesananMakanan[] daftarPesanan = new PesananMakanan[jumlahPesanan];
-```
-
-### 12. Error Handling
-
-Menggunakan try-catch untuk validasi input numerik:
+### 3. `Transaksi` Class
+Mengelola satu transaksi lengkap (bisa terdiri dari beberapa `PesananMakanan`).
 
 ```java
-try {
-    harga = input.nextDouble();
-} catch (InputMismatchException e) {
-    System.out.println("Input harga tidak valid.");
+public class Transaksi {
+    private String namaPelanggan;
+    private PesananMakanan[] daftarPesanan;
+    ...
 }
 ```
+
+### 4. `QuickMealMain` (Main Program)
+Menjalankan aplikasi: menampilkan menu, menerima input, memproses pesanan, dan menampilkan ringkasan transaksi.
+
+```java
+public class QuickMealMain {
+    public static void main(String[] args) {
+        ...
+    }
+}
+```
+
+## Konsep OOP yang Digunakan
+
+| Konsep OOP       | Implementasi                                                                 |
+|------------------|------------------------------------------------------------------------------|
+| **Class & Object**   | `MenuItem`, `PesananMakanan`, `Transaksi`, `QuickMealMain`                      |
+| **Atribut**          | Semua class memiliki atribut `private` seperti `nama`, `harga`, `jumlah`, dsb.  |
+| **Constructor**      | Semua class memiliki constructor untuk inisialisasi data.                       |
+| **Encapsulation**    | Atribut disembunyikan menggunakan `private` dan diakses lewat getter/setter.    |
+| **Mutator & Accessor** | Disediakan setter dan getter pada setiap class.                                |
+| **Array**            | Array digunakan untuk menyimpan daftar pesanan dan menu.                        |
+| **Perulangan**       | Digunakan saat menampilkan menu, input pesanan, dan total transaksi.            |
+| **IO Sederhana**     | Menggunakan `Scanner` untuk input dan `System.out.println` untuk output.        |
+| **Error Handling**   | Menggunakan `try-catch` untuk menangani input yang tidak valid.                 |
+
+## Fitur Utama
+
+- Menampilkan daftar menu makanan
+- Memilih item makanan dan jumlahnya
+- Menampilkan detail pesanan dan total harga
+- Menangani input tidak valid dengan baik
 
 ## Catatan
 
-> Program ini belum menggunakan konsep **Inheritance** dan **Polymorphism**. Konsep ini dapat diterapkan di versi lanjutan, seperti membuat subclass `MemberTransaksi` atau `NonMemberTransaksi` untuk diskon spesifik.
+> Program **belum menerapkan** konsep **Inheritance**, **Polymorphism**, dan **Seleksi (if/switch)** secara eksplisit. Fitur seperti kategori makanan, tipe pelanggan, atau logika diskon dapat ditambahkan untuk meningkatkan kompleksitas dan mencakup materi tambahan.
 
-## Usulan Nilai
+## Usulan Penilaian
 
-| No  | Materi         |  Nilai  |
-| :-: | -------------- | :-----: |
-|  1  | Class          |    5    |
-|  2  | Object         |    5    |
-|  3  | Atribut        |    5    |
-|  4  | Constructor    |    5    |
-|  5  | Mutator        |    5    |
-|  6  | Accessor       |    5    |
-|  7  | Encapsulation  |    5    |
-|  8  | Inheritance    |    0    |
-|  9  | Polymorphism   |    0    |
-| 10  | Seleksi        |    5    |
-| 11  | Perulangan     |    5    |
-| 12  | IO Sederhana   |   10    |
-| 13  | Array          |   15    |
-| 14  | Error Handling |   15    |
-|     | **TOTAL**      | **100** |
+| No  | Materi         | Nilai |
+|:--:|----------------|:-----:|
+| 1  | Class          |   5   |
+| 2  | Object         |   5   |
+| 3  | Atribut        |   5   |
+| 4  | Constructor    |   5   |
+| 5  | Mutator        |   5   |
+| 6  | Accessor       |   5   |
+| 7  | Encapsulation  |   5   |
+| 8  | Inheritance    |   0   |
+| 9  | Polymorphism   |   0   |
+| 10 | Seleksi        |   0   |
+| 11 | Perulangan     |   5   |
+| 12 | IO Sederhana   |  10   |
+| 13 | Array          |  15   |
+| 14 | Error Handling |  15   |
+|    | **TOTAL**      | **95**|
 
 ## Pembuat
 
